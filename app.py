@@ -65,19 +65,26 @@ def close_db(error):
         g.sqlite_db.close()
 
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def show_entries():
-    db = get_db()
-    cur = db.execute('select title, text from entries order by id desc')
-    entries = cur.fetchall()
-    return render_template('show_entries.html', entries=entries)
+    choice = request.form.get('choice')
+    if "choice" not in request.form:
+        db = get_db()
+        cur = db.execute('select title, text, category from entries order by id desc ')
+        entries = cur.fetchall()
+        return render_template('show_entries.html', entries=entries, choice=choice)
+    else:
+        db = get_db()
+        cur = db.execute('select title, text, category from entries where category LIKE ? order by id desc ', ("%" + choice + "%",))
+        entries = cur.fetchall()
+        return render_template('show_entries.html', entries=entries, choice=choice)
 
 
 @app.route('/add', methods=['POST'])
 def add_entry():
     db = get_db()
-    db.execute('insert into entries (title, text) values (?, ?)',
-               [request.form['title'], request.form['text']])
+    db.execute('insert into entries (title, text, category) values (?, ?, ?)',
+               [request.form['title'], request.form['text'], request.form['category']])
     db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
