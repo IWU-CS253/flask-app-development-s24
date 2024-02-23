@@ -11,7 +11,13 @@
   </form>
   <ul class="entries">
   {% for entry in entries %}
-    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}</li>
+    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+        <ins> </ins>
+        <form action="/delete" method="post">
+            <button name='delete{{ entry.title }}'>Delete</button>
+            <button name='edit{{ entry.title }}'>Edit</button>
+        </form>
+    </li>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
