@@ -81,3 +81,12 @@ def add_entry():
     db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
+
+@app.route('/add' , methods = ['POST'])
+def complete_task(id):
+    db = get_db()
+    db.execute('UPDATE tasks SET completed = 1 WHERE id = ?')
+    db.commit()
+    flash('Entry was completed')
+    return redirect(url_for('show_entries'))
+
