@@ -6,12 +6,16 @@
       <dd><input type="text" size="30" name="title">
       <dt>Text:
       <dd><textarea name="text" rows="5" cols="40"></textarea>
-      <dd><input type="submit" value="Share">
+      <dd><input type="submit" value="Add">
     </dl>
   </form>
-  <ul class="entries">
+  <ul class="entries" >
   {% for entry in entries %}
     <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}</li>
+    <form action = "/delete" method = "POST">
+    <input type = "submit" value = "Delete">
+    <input type = "Hidden" name = "task" value = {{ entry.id }}>
+    </form>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
