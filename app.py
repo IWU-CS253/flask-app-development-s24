@@ -73,6 +73,25 @@ def show_entries():
     return render_template('show_entries.html', entries=entries)
 
 
+
+
+
+
+
+
+@app.route('/categories')
+def show_categories():
+    db = get_db()
+    cur_c = db.execute('select title, text from categories order by id desc')
+    entries_c = cur_c.fetchall()
+    return render_template('show_categories.html', entries_c=entries_c)
+
+
+
+
+
+
+
 @app.route('/add', methods=['POST'])
 def add_entry():
     db = get_db()

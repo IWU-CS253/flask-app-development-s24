@@ -1,33 +1,75 @@
 {% extends "layout.html" %}
 {% block body %}
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script>
+    function filter() {
+        let selCat = document.getElementById('categories').value;
+        let entries = document.querySelectorAll('.entry');
+
+        entries.forEach(function(entry) { //.foreach() citation: https://www.w3schools.com/jsref/jsref_foreach.asp
+            let category = entry.getAttribute('data-category');
+            if (selCat === "all_categories" || category === selCat) {
+                entry.classList.remove("hidden"); //Hiding element using .classList.remove citation: https://javascriptguide.com/how-to-hide-and-show-an-html-element-with-javascript/
+            }
+            else {
+                entry.classList.add("hidden");
+            }
+
+        });
+
+    }
+
+    </script>
+
   <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
     <dl>
       <dt>Title:
       <dd><input type="text" size="30" name="title">
       <dt>Category:
-      <dd><textarea name="text" rows="5" cols="40"></textarea>
+      <dd><input name="text" rows="5" cols="40"></input>
       <dd><input type="submit" value="Share">
     </dl>
   </form>
 
-    <label for="select_category">Choose a category: </label>
-  <select name="select_categories" id="categories">
-          {% for entry in entries %}
-            <option value="entry.text|safe">{{ entry.text|safe }}</option>
-          {% endfor %}
+
+
+<form action="{{ url_for('show_categories')}}" method="get" class="show-categories">
+  <label for="select_category">Choose a category: </label>
+
+  <select name="select_categories" id="categories" onchange="filter()">
+        <option value="all_categories">All Categories</option>
+        {% for entry in entries %}
+            <option value="{{entry.text }}">{{ entry.text }}</option>
+        {% endfor %}
   </select>
+</form>
 
 
   <ul class="entries">
   {% for entry in entries %}
+    <li class="entry" data-category="{{ entry.text }}">
+        <h2>{{ entry.title }}</h2>{{ entry.text|safe }}
 
-    <h2>{{ entry.title }}</h2>{{ entry.text|safe }} {{ entry.id }}
+
+
+
+
+
+
+
+
+
 
     <form action="{{ url_for('delete_entry') }}" method="post" class="delete-entry">
         <button value="delete" type="submit">Delete</button>
         <input name="id" value="{{ entry.id }}" type=hidden>
     </form>
-    <br>
+    </li>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
