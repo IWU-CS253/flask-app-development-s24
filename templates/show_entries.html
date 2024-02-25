@@ -11,10 +11,10 @@
         let selCat = document.getElementById('categories').value;
         let entries = document.querySelectorAll('.entry');
 
-        entries.forEach(function(entry) { //.foreach() citation: https://www.w3schools.com/jsref/jsref_foreach.asp
+        entries.forEach(function(entry) { //.foreach() -> Help loop through the entries data | Citation: https://www.w3schools.com/jsref/jsref_foreach.asp
             let category = entry.getAttribute('data-category');
             if (selCat === "all_categories" || category === selCat) {
-                entry.classList.remove("hidden"); //Hiding element using .classList.remove citation: https://javascriptguide.com/how-to-hide-and-show-an-html-element-with-javascript/
+                entry.classList.remove("hidden"); //Hiding element using .classList.remove | Citation: https://javascriptguide.com/how-to-hide-and-show-an-html-element-with-javascript/
             }
             else {
                 entry.classList.add("hidden");
