@@ -31,7 +31,7 @@
       <dt>Title:
       <dd><input type="text" size="30" name="title">
       <dt>Category:
-      <dd><input name="category" size="30" cat_name="category"></input>
+        <dd><input name="category" size="30" ></dd>
         <dt>Text:
       <dd><textarea name="text" rows="5" cols="40"></textarea>
       <dd><input type="submit" value="Share">
@@ -40,12 +40,12 @@
 
 
 
-<form action="{{ url_for('show_categories')}}" method="get" class="show-categories">
+<form action="{{ url_for('show_entries')}}" method="get" class="show-categories">
   <label for="select_category">Choose a category: </label>
 
   <select name="select_categories" id="categories" onchange="filter()">
-        <option value="all_categories">All Categories</option>
-        {% for entry in entries %}
+        <option value="all_categories" class="category_list">All Categories</option>
+        {% for entry in categories %}
             <option value="{{entry.category }}">{{ entry.category }}</option>
         {% endfor %}
   </select>
@@ -55,17 +55,7 @@
   <ul class="entries">
   {% for entry in entries %}
     <li class="entry" data-category="{{ entry.category }}">
-        <h2>{{ entry.title }}</h2>{{ entry.text|safe }} - {{ entry.category }}
-
-
-
-
-
-
-
-
-
-
+        <h2>{{ entry.title }}</h2> <h4>{{ entry.category }}</h4> {{ entry.text|safe }}
 
     <form action="{{ url_for('delete_entry') }}" method="post" class="delete-entry">
         <button value="delete" type="submit">Delete</button>
