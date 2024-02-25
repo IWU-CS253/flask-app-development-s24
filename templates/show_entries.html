@@ -31,7 +31,9 @@
       <dt>Title:
       <dd><input type="text" size="30" name="title">
       <dt>Category:
-      <dd><input name="text" rows="5" cols="40"></input>
+      <dd><input name="category" size="30" cat_name="category"></input>
+        <dt>Text:
+      <dd><textarea name="text" rows="5" cols="40"></textarea>
       <dd><input type="submit" value="Share">
     </dl>
   </form>
@@ -44,7 +46,7 @@
   <select name="select_categories" id="categories" onchange="filter()">
         <option value="all_categories">All Categories</option>
         {% for entry in entries %}
-            <option value="{{entry.text }}">{{ entry.text }}</option>
+            <option value="{{entry.category }}">{{ entry.category }}</option>
         {% endfor %}
   </select>
 </form>
@@ -52,8 +54,8 @@
 
   <ul class="entries">
   {% for entry in entries %}
-    <li class="entry" data-category="{{ entry.text }}">
-        <h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+    <li class="entry" data-category="{{ entry.category }}">
+        <h2>{{ entry.title }}</h2>{{ entry.text|safe }} - {{ entry.category }}
 
 
 
