@@ -39,6 +39,9 @@ flaskr.db
 
 # PyCharm
 
+# Ignore all .pyc files
+*.pyc
+
 # Ignore all .log files
 *.log
 
