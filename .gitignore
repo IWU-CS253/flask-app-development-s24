@@ -38,3 +38,18 @@ flaskr.db
 .idea/**/markdown-navigator/
 
 # PyCharm
+
+# Ignore all .log files
+*.log
+
+# Ignore specific file
+secret-config.json
+
+# Ignore all files in the bin directory
+bin/
+
+# Track this file, even if previously ignored
+!bin/important-script.sh
+
+# Ignore all .txt files in the docs directory
+docs/*.txt
