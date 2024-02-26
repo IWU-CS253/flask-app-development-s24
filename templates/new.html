@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h3>UPDATE here: </h3>
+  <form action="{{ url_for('new_entry') }}" method="post" class="new-entry">
+  <input value="{{ id }}" type="hidden" name="id">
+    <dl>
+      <dt>Title:
+      <dd><input type="text" size="30" name="title">
+      <dt>Text:
+      <dd><textarea name="text" rows="5" cols="40"></textarea>
+      <dd><input type="submit" value="Update">
+    </dl>
+  </form>
+{% endblock %}
