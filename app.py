@@ -89,3 +89,43 @@ def update_tasks():
 def delete_task():
     db = get_db()
     db.execute()
+
+@app.route('/new', methods=['POST'])
+def new_entry():
+    db = get_db()
+    db.execute("update entries set title = ?, text = ?  where id = ? ",
+               [request.form['title'], request.form['text'], request.form.get('id')])
+    db.commit()
+    flash('Entry was successfully updated')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/new-redir', methods=['GET'])
+def new_redir():
+    id = request.args.get("id")
+    return render_template('new.html', id=id)
+
+
+@app.route('/new_complete', methods=['POST'])
+def new_complete():
+    db = get_db()
+    complete_val = request.form.get('complete')
+    db.execute("update entries set complete='complete' where id = ?",
+               [request.form.get('id')])
+    db.commit()
+    flash('The entry was successfully completed!')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/delete', methods=['POST'])
+def delete_entry():
+    db = get_db()
+    db.execute('delete from entries where id = ?',
+               [request.form.get('id')])
+    db.commit()
+    flash('The entry was successfully deleted')
+    return redirect(url_for('show_entries'))
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
