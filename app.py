@@ -11,6 +11,7 @@
 """
 import os
 import sqlite3
+from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, render_template, request, redirect, url_for, flash, g
 
 
