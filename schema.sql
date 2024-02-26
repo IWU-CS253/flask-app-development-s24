@@ -1,6 +1,6 @@
-drop table if exists entries;
-create table entries (
+drop table if exists tasks;
+create table tasks (
   id integer primary key autoincrement,
-  title text not null,
+  task_names text not null,
   'text' text not null
 );

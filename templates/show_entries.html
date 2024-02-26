@@ -10,16 +10,15 @@
 
   <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
     <dl>
-      <dt>Title:
-      <dd><input type="text" size="30" name="title">
+      <dt>Tasks:
+      <dd><input type="text" size="30" name="task_names">
       <dt>Text:
       <dd><textarea name="text" rows="5" cols="40"></textarea>
       <dd><input type="submit" value="Share">
     </dl>
   </form>
   <ul class="entries">
-
-  {% for entry in entries %}
+  {% for entry in tasks %}
       <li><h2>
         <form action="{{ url_for('new_complete') }}" method="post" id="new-complete-{{ entry.id }}">
             <input name="id" value="{{ entry.id }}" type=hidden>
@@ -27,7 +26,7 @@
         </form>
 
 
-          {{ entry.title }} </h2>
+          {{ entry.task_names }} </h2>
           <h4>{{ entry.complete }}</h4>
           {{ entry.text|safe }}
 
@@ -44,9 +43,8 @@
         </form>
       </li>
       <br>
-
   {% else %}
-    <li><em>Unbelievable.  No entries here so far</em></li>
+    <li><em>Unbelievable.  No tasks here so far</em></li>
   {% endfor %}
   </ul>
 {% endblock %}
