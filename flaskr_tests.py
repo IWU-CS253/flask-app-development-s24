@@ -42,17 +42,34 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'<strong>HTML</strong> allowed here' in rv.data
         assert b'A category' in rv.data
 
+    # def test_delete(self):
+    #     rv_delete = self.app.post('/delete', data=dict(
+    #         id=id
+    #     ), follow_redirects=True)
+    #
+    #     assert b'Test Entry' not in rv_delete.data
+    #     assert b'This is a test entry' not in rv_delete.data
+    #     assert b'Test Category' not in rv_delete.data
+    #     assert b'The entry was successfully deleted' in rv_delete.data
 
 
-    def test_delete(self):
-        rv_delete = self.app.post('/delete', data=dict(
-            id=id
-        ), follow_redirects=True)
+def test_add_and_delete(self):
+    # Add an entry
+    rv_add = self.app.post('/add', data=dict(
+        title='Test Entry',
+        text='This is a test entry',
+        category='Test Category'
+    ), follow_redirects=True)
 
-        assert b'Test Entry' not in rv_delete.data
-        assert b'This is a test entry' not in rv_delete.data
-        assert b'Test Category' not in rv_delete.data
-        assert b'The entry was successfully deleted' in rv_delete.data
+    entry_id = id(rv_add)
+    rv_delete = self.app.post('/delete', data=dict(
+        id=entry_id
+    ), follow_redirects=True)
+
+    assert b'Test Entry' not in rv_delete.data
+    assert b'This is a test entry' not in rv_delete.data
+    assert b'Test Category' not in rv_delete.data
+    assert b'The entry was successfully deleted' in rv_delete.data
 
 
 if __name__ == '__main__':
