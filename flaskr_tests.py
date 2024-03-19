@@ -53,7 +53,7 @@ class FlaskrTestCase(unittest.TestCase):
     #     assert b'The entry was successfully deleted' in rv_delete.data
 
 
-def test_add_and_delete(self):
+def test_delete(self):
     # Add an entry
     rv_add = self.app.post('/add', data=dict(
         title='Test Entry',
