@@ -62,7 +62,7 @@ class FlaskrTestCase(unittest.TestCase):
 
         entry_id = id(rv_add)
         rv_delete = self.app.post('/delete', data=dict(
-            id=entry_id
+            id=id
         ), follow_redirects=True)
 
         assert b'Test Entry' not in rv_delete.data
