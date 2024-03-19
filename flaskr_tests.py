@@ -54,13 +54,13 @@ class FlaskrTestCase(unittest.TestCase):
 
     def test_delete(self):
         # Add an entry
-        rv_add = self.app.post('/add', data=dict(
-            title='Test Entry',
-            text='This is a test entry',
-            category='Test Category'
+        rv = self.app.post('/add', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here',
+            category='A category'
         ), follow_redirects=True)
 
-        entry_id = id(rv_add)
+        entry_id = id(rv)
         rv_delete = self.app.post('/delete', data=dict(
             id=id
         ), follow_redirects=True)
