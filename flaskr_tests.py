@@ -21,16 +21,6 @@ class FlaskrTestCase(unittest.TestCase):
         rv = self.app.get('/')
         assert b'No entries here so far' in rv.data
 
-    # def test_messages(self):
-    #     rv = self.app.post('/add', data=dict(
-    #         title='<Hello>',
-    #         text='<strong>HTML</strong> allowed here',
-    #         category='test'
-    #     ), follow_redirects=True)
-    #     assert b'No entries here so far' not in rv.data
-    #     assert b'&lt;Hello&gt;' in rv.data
-    #     assert b'<strong>HTML</strong> allowed here' in rv.data
-
     def test_messages(self):
         rv = self.app.post('/add', data=dict(
             title='<Hello>',
@@ -41,16 +31,6 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'&lt;Hello&gt;' in rv.data
         assert b'<strong>HTML</strong> allowed here' in rv.data
         assert b'A category' in rv.data
-
-    # def test_delete(self):
-    #     rv_delete = self.app.post('/delete', data=dict(
-    #         id=id
-    #     ), follow_redirects=True)
-    #
-    #     assert b'Test Entry' not in rv_delete.data
-    #     assert b'This is a test entry' not in rv_delete.data
-    #     assert b'Test Category' not in rv_delete.data
-    #     assert b'The entry was successfully deleted' in rv_delete.data
 
     def test_delete(self):
         # Add an entry
