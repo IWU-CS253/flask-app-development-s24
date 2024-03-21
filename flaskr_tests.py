@@ -82,8 +82,7 @@ class FlaskrTestCase(unittest.TestCase):
         ), follow_redirects=True)
 
         # Retrieve the ID of the added entry
-        entry_id = get_entry_id_from_response(rv_add)  # Implement this function to extract the ID from the response
-
+        entry_id = id(rv)
         # Make a GET request to /update-redir route with the entry ID
         rv_update_redir = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
 
