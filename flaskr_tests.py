@@ -72,23 +72,27 @@ class FlaskrTestCase(unittest.TestCase):
 
         # Check if the entry is successfully updated
         assert b'Entry updated successfully' in rv_update.data
-    #
-    #
-    # def test_update_redir_after_adding_entry(self):
-    #     # Add an entry
-    #     rv = self.app.post('/add', data=dict(
-    #         title='<Hello>',
-    #         text='<strong>HTML</strong> allowed here',
-    #         category='A category'
-    #     ), follow_redirects=True)
-    #
-    #     entry_id = id(rv)
-    #     rv_update_redir = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
-    #
-    #     assert rv_update_redir.status_code == 200  # 302 is the HTTP status code for redirection
-    #
-    #     # Check if the redirection URL is as expected
-    #     assert rv_update_redir.headers['Location'] == f'http://localhost/update?id={entry_id}'
+
+    def test_update_redir_after_adding_entry(self):
+        # Add an entry to the database
+        rv_add = self.app.post('/add', data=dict(
+            title='Test Entry',
+            text='This is a test entry',
+            category='Test Category'
+        ), follow_redirects=True)
+
+        # Retrieve the ID of the added entry
+        entry_id = get_entry_id_from_response(rv_add)  # Implement this function to extract the ID from the response
+
+        # Make a GET request to /update-redir route with the entry ID
+        rv_update_redir = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
+
+        # Check if the response is a redirect response (HTTP status code 302)
+        assert rv_update_redir.status_code == 302
+
+        # Check if the redirection URL is as expected
+        expected_url = f'http://localhost/update?id={entry_id}'  # Replace 'localhost' with the actual base URL of your application
+        assert rv_update_redir.headers['Location'] == expected_url
 
 
 if __name__ == '__main__':
