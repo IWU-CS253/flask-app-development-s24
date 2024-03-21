@@ -75,7 +75,7 @@ class FlaskrTestCase(unittest.TestCase):
 
     def test_update_redir_after_adding_entry(self):
         # Add an entry to the database
-        rv_add = self.app.post('/add', data=dict(
+        rv = self.app.post('/add', data=dict(
             title='Test Entry',
             text='This is a test entry',
             category='Test Category'
