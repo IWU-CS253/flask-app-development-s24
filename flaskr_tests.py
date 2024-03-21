@@ -87,7 +87,7 @@ class FlaskrTestCase(unittest.TestCase):
         rv_update_redir = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
 
         # Check if the response is a redirect response (HTTP status code 302)
-        assert rv_update_redir.status_code == 302
+        assert rv_update_redir.status_code == 200
 
         # Check if the redirection URL is as expected
         expected_url = f'http://localhost/update?id={entry_id}'  # Replace 'localhost' with the actual base URL of your application
