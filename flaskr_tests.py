@@ -76,14 +76,14 @@ class FlaskrTestCase(unittest.TestCase):
     def test_update_redir(self):
         # Simulate visiting the /update-redir route with an entry ID
         entry_id = 1  # Replace with the actual entry ID you want to use for testing
-        rv = self.app.get(f'/update-redir?id={entry_id}')
+        rv = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
 
-        # Check if the response status code is 200 (OK)
-        assert rv.status_code == 200
+        # Check if the response status code is a redirection status code (302)
+        assert rv.status_code == 302
 
-        # Check if the response contains the correct HTML content
-        assert b'<input type="hidden" name="id" value="1">' in rv.data  # Assuming id=1 for testing
-        assert b'update.html' in rv.data
+        # Check if the redirection URL is correct
+        expected_url = f'http://localhost/update?id={entry_id}'  # Replace 'localhost' with the actual base URL of your application
+        assert rv.headers['Location'] == expected_url
 
 
 if __name__ == '__main__':
