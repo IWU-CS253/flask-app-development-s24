@@ -87,7 +87,7 @@ def add_entry():
                [request.form['title'], request.form['text'],
                 request.form['category']])
     db.commit()
-    flash('New entry was successfully posted')
+    flash('Entry added successfully', category='success')
     return redirect(url_for('show_entries'))
 
 
@@ -97,5 +97,21 @@ def delete_entry():
     db.execute('delete from entries where id = ?',
                [request.form.get('id')])
     db.commit()
-    flash('The entry was successfully deleted')
+    flash('Entry deleted successfully', category='danger')
     return redirect(url_for('show_entries'))
+
+
+@app.route('/update', methods=['POST'])
+def update_entry():
+    db = get_db()
+    db.execute("update entries set title = ?, category = ?, text = ?  where id = ? ",
+               [request.form['title'], request.form['category'], request.form['text'], request.form.get('id')])
+    db.commit()
+    flash('Entry updated successfully ', category='info')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/update-redir', methods=['GET'])
+def update_redir():
+    id = request.args.get("id")
+    return render_template('update.html', id=id)
