@@ -73,31 +73,26 @@ class FlaskrTestCase(unittest.TestCase):
         # Check if the entry is successfully updated
         assert b'Entry updated successfully' in rv_update.data
 
-
-
-
-
     def test_update_redir(self):
-        rv = self.app.post('/add', data=dict(
+        # Add an entry to the database
+        rv_add = self.app.post('/add', data=dict(
             title='<Hello>',
             text='<strong>HTML</strong> allowed here',
             category='A category'
         ), follow_redirects=True)
 
-        entry_id = id(rv)
-        # Simulate visiting the /update-redir route with an entry ID
+        # Retrieve the entry ID from the response content
+        entry_id = get_entry_id_from_response(rv_add)  # You need to implement this function to extract the entry ID
 
-        rv = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
+        # Simulate visiting the /update-redir route with the retrieved entry ID
+        rv_redir = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
 
         # Check if the response status code is a redirection status code (302)
-        assert rv.status_code == 200
-
-        # Check if the 'Location' header exists in the response
-        assert 'Location' in rv.headers
+        assert rv_redir.status_code == 302
 
         # Check if the redirection URL is correct
         expected_url = f'http://localhost/update?id={entry_id}'  # Replace 'localhost' with the actual base URL of your application
-        assert rv.headers.get('Location') == expected_url
+        assert rv_redir.headers['Location'] == expected_url
 
 
 if __name__ == '__main__':
