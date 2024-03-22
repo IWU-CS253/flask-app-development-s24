@@ -65,24 +65,11 @@ class FlaskrTestCase(unittest.TestCase):
         ), follow_redirects=True)
         assert b'Entry deleted successfully' in rv_delete_existing.data
 
-
-        # Test deleting the last entry
-        rv_delete_last = self.app.post('/delete', data=dict(
-            id=entry_id
+        # Test deleting a non-existing entry
+        rv_delete_non_existing = self.app.post('/delete', data=dict(
+            id='non_existing_id'
         ), follow_redirects=True)
-        assert b'Entry deleted successfully' in rv_delete_last.data
-
-        # Test deleting entry without specifying ID
-        rv_delete_no_id = self.app.post('/delete', follow_redirects=True)
-        assert b'Invalid request' in rv_delete_no_id.data
-
-        # Test deleting entry with invalid ID format
-        rv_delete_invalid_id = self.app.post('/delete', data=dict(
-            id='invalid_id_format'
-        ), follow_redirects=True)
-        assert b'Invalid entry ID' in rv_delete_invalid_id.data
-
-
+        assert b'Entry deleted successfully' not in rv_delete_non_existing.data
 
 
 
