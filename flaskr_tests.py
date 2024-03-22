@@ -41,7 +41,7 @@ class FlaskrTestCase(unittest.TestCase):
         ), follow_redirects=True)
 
         # Extract the entry ID from the response content
-        entry_id = extract_entry_id(rv_add)
+        entry_id = id(rv_add)
 
         # Test deleting an existing entry
         rv_delete_existing = self.app.post('/delete', data=dict(
