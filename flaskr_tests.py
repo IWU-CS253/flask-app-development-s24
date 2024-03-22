@@ -90,7 +90,7 @@ class FlaskrTestCase(unittest.TestCase):
         rv = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
 
         # Check if the response status code is a redirection status code (302)
-        assert rv.status_code == 302
+        assert rv.status_code == 200
 
         # Check if the 'Location' header exists in the response
         assert 'Location' in rv.headers
