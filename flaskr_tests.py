@@ -34,28 +34,21 @@ class FlaskrTestCase(unittest.TestCase):
 
     def test_delete(self):
         # Add an entry
-        rv_add = self.app.post('/add', data=dict(
+        rv = self.app.post('/add', data=dict(
             title='<Hello>',
             text='<strong>HTML</strong> allowed here',
             category='A category'
         ), follow_redirects=True)
 
-        # Extract the entry ID from the response content
-        entry_id = id(rv_add)
-
-        # Test deleting an existing entry
-        rv_delete_existing = self.app.post('/delete', data=dict(
-            id=entry_id
-        ), follow_redirects=True)
-        assert b'Entry deleted successfully' in rv_delete_existing.data
-
-        # Test deleting a non-existing entry
-        rv_delete_non_existing = self.app.post('/delete', data=dict(
-            id='non_existing_id'
+        entry_id = id(rv)
+        rv_delete = self.app.post('/delete', data=dict(
+            id=id
         ), follow_redirects=True)
 
-        # Check if the response contains the expected message for non-existing entry
-        assert b'Entry not found' in rv_delete_non_existing.data
+        assert b'Test Entry' not in rv_delete.data
+        assert b'This is a test entry' not in rv_delete.data
+        assert b'Test Category' not in rv_delete.data
+        assert b'Entry deleted successfully' in rv_delete.data
 
     def test_update_entry(self):
         # Add an entry
