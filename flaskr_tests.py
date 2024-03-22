@@ -77,5 +77,6 @@ class FlaskrTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(bytes(str(test_id), 'utf-8'), response.data)
 
+
 if __name__ == '__main__':
     unittest.main()
