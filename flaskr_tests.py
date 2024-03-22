@@ -33,26 +33,23 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'A category' in rv.data
 
     def test_delete(self):
-        # Test deleting an existing entry
-        rv_add = self.app.post('/add', data=dict(
+        # Add an entry
+        rv = self.app.post('/add', data=dict(
             title='<Hello>',
             text='<strong>HTML</strong> allowed here',
             category='A category'
         ), follow_redirects=True)
 
-        entry_id = id(rv_add)
-
-        rv_delete_existing = self.app.post('/delete', data=dict(
-            id=entry_id
+        entry_id = id(rv)
+        rv_delete = self.app.post('/delete', data=dict(
+            id=id
         ), follow_redirects=True)
-        assert b'Entry deleted successfully' in rv_delete_existing.data
-
-        # Test deleting a non-existing entry
-        rv_delete_non_existing = self.app.post('/delete', data=dict(
-            id='non_existing_id'
-        ), follow_redirects=True)
-        assert b'Entry deleted successfully' not in rv_delete_non_existing.data
         
+        assert b'Test Entry' not in rv_delete.data
+        assert b'This is a test entry' not in rv_delete.data
+        assert b'Test Category' not in rv_delete.data
+        assert b'Entry deleted successfully' in rv_delete.data
+
     def test_update_entry(self):
         # Add an entry
         rv = self.app.post('/add', data=dict(
