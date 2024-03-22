@@ -32,23 +32,65 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'<strong>HTML</strong> allowed here' in rv.data
         assert b'A category' in rv.data
 
+    # def test_delete(self):
+    #     # Add an entry
+    #     rv = self.app.post('/add', data=dict(
+    #         title='<Hello>',
+    #         text='<strong>HTML</strong> allowed here',
+    #         category='A category'
+    #     ), follow_redirects=True)
+    #
+    #     entry_id = id(rv)
+    #     rv_delete = self.app.post('/delete', data=dict(
+    #         id=id
+    #     ), follow_redirects=True)
+    #
+    #     assert b'Test Entry' not in rv_delete.data
+    #     assert b'This is a test entry' not in rv_delete.data
+    #     assert b'Test Category' not in rv_delete.data
+    #     assert b'Entry deleted successfully' in rv_delete.data
+
     def test_delete(self):
-        # Add an entry
-        rv = self.app.post('/add', data=dict(
+        rv_add = self.app.post('/add', data=dict(
             title='<Hello>',
             text='<strong>HTML</strong> allowed here',
             category='A category'
         ), follow_redirects=True)
 
-        entry_id = id(rv)
-        rv_delete = self.app.post('/delete', data=dict(
-            id=id
+        # Extract the entry ID from the response content
+        entry_id = id(rv_add)
+
+        # Test deleting an existing entry
+        rv_delete_existing = self.app.post('/delete', data=dict(
+            id=entry_id
+        ), follow_redirects=True)
+        assert b'Entry deleted successfully' in rv_delete_existing.data
+
+        # Test deleting a non-existing entry
+        rv_delete_non_existing = self.app.post('/delete', data=dict(
+            id='non_existing_id'
+        ), follow_redirects=True)
+        assert b'Entry not found' in rv_delete_non_existing.data
+
+        # Add another entry
+        rv_add_another = self.app.post('/add', data=dict(
+            title='Second Entry',
+            text='This is the second entry',
+            category='Another category'
         ), follow_redirects=True)
 
-        assert b'Test Entry' not in rv_delete.data
-        assert b'This is a test entry' not in rv_delete.data
-        assert b'Test Category' not in rv_delete.data
-        assert b'Entry deleted successfully' in rv_delete.data
+        # Extract the entry ID from the response content
+        entry_id_another = id(rv_add_another)
+
+        # Test deleting the last entry
+        rv_delete_last = self.app.post('/delete', data=dict(
+            id=entry_id_another
+        ), follow_redirects=True)
+        assert b'Entry deleted successfully' in rv_delete_last.data
+
+
+
+
 
     def test_update_entry(self):
         # Add an entry
