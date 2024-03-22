@@ -77,33 +77,28 @@ class FlaskrTestCase(unittest.TestCase):
 
 
 
-    # def test_update_redir(self):
-    #     rv = self.app.post('/add', data=dict(
-    #         title='<Hello>',
-    #         text='<strong>HTML</strong> allowed here',
-    #         category='A category'
-    #     ), follow_redirects=True)
-    #
-    #     entry_id = id(rv)
-    #     # Simulate visiting the /update-redir route with an entry ID
-    #
-    #     rv = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
-    #
-    #     # Check if the response status code is a redirection status code (302)
-    #     assert rv.status_code == 302
-    #
-    #     # Check if the 'Location' header exists in the response
-    #     assert 'Location' in rv.headers
-    #
-    #     # Check if the redirection URL is correct
-    #     expected_url = f'http://localhost/update?id={entry_id}'  # Replace 'localhost' with the actual base URL of your application
-    #     assert rv.headers.get('Location') == expected_url
+    def test_update_redir(self):
+        rv = self.app.post('/add', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here',
+            category='A category'
+        ), follow_redirects=True)
 
-    def test_update_redirect(self):
-        test_id = 123
-        response = self.app.get(f'/update-redirect?id={test_id}')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(bytes(str(test_id), 'utf-8'), response.data)
+        entry_id = id(rv)
+        # Simulate visiting the /update-redir route with an entry ID
+
+        rv = self.app.get(f'/update-redir?id={entry_id}', follow_redirects=False)
+
+        # Check if the response status code is a redirection status code (302)
+        assert rv.status_code == 302
+
+        # Check if the 'Location' header exists in the response
+        assert 'Location' in rv.headers
+
+        # Check if the redirection URL is correct
+        expected_url = f'http://localhost/update?id={entry_id}'  # Replace 'localhost' with the actual base URL of your application
+        assert rv.headers.get('Location') == expected_url
+
 
 if __name__ == '__main__':
     unittest.main()
