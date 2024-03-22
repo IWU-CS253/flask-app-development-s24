@@ -73,9 +73,9 @@ class FlaskrTestCase(unittest.TestCase):
 
     def test_update_redirect(self):
         test_id = 123
-        response = self.app.get(f'/update-redirect?id={test_id}')
+        response = self.app.get(f'/update-redir?id={test_id}')
         self.assertEqual(response.status_code, 200)
         self.assertIn(bytes(str(test_id), 'utf-8'), response.data)
-        
+
 if __name__ == '__main__':
     unittest.main()
